@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホームページ</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #7ebeab;
+              
+        }
+
+        header {
+            display: flex;
+            background-image:url(https://beiz.jp/images_P/sea-ocean/sea-ocean_00007.jpg); 
+            justify-content: space-between;
+            align-items: center;
+            background-color: #c1d8ac;
+            color: #17184b;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-icon {
+          color:#00a381;
+            cursor: pointer;
+            font-size: 60px;
+        }
+
+        nav {
+           background-image:url(https://user0514.cdnw.net/shared/img/thumb/kirigamine-22_TP_V.jpg);
+            position: fixed;
+            top:  0;
+            left: 0;
+            height: 100%;
+            width: 200px;
+            transform: translateX(-250px);
+            transition: transform 0.3s ease-in-out;
+            z-index: 999;
+            padding-top: 70px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 25px 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 25px;
+            color:#e6b422;
+            display: block;
+            transition: background-image 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #bbbcde;
+        }
+       
+
+        #menu.hidden {
+          
+            transform: translateX(-250px);
+        }
+
+        #menu.visible {
+            transform: translateX(0);
+        }
+
+        main {
+            padding: 90px 20px 20px 20px; /* 上のバーと重ならないようにパディングを追加 */
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        main.active {
+            margin-left: 250px;
+        }
+
+         #clock {
+          color : #028760;
+          margin-right:25px;
+          font-size: 25px;
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .page.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .colorful-button {
+            padding: 20px 45px;
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 70px;
+            cursor: pointer;
+             /*コレ*/display: flex;
+             /*コレ*/justify-content: flex-end;
+             /*コレ*/line-height: 3;
+              /*コレ*/padding: 10px 0;
+            justify-content: center;  
+             text-align: center;
+            animation: gradient 3s ease infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .colorful-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .spinner {
+            display: none;
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) 
+            header h1 {
+                font-size: 14px;
+            }
+
+            nav {
+                width: 200px;
+                transform: translateX(-200px);
+            }
+
+            #menu.hidden {
+                transform: translateX(-200px);
+            }
+
+            #menu.visible {
+                transform: translateX(0);
+            }
+
+             
+
+            main.active {
+                margin-left: 200px;
+            }
+
+            .colorful-button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+
+            .spinner {
+                width: 80px;
+                height: 80px;
+            }
+         .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1em;
+        }
+
+        .clock {
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .date {
+            font-size: 30px;
+            margin-top: 0.5em;
+        }
+
+        .seconds {
+            font-size: 20px;
+        }
+
+        @keyframes second-animation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .seconds span {
+            display: inline-block;
+            animation: second-animation 60s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .rotate {
+            animation: rotate 1s infinite;
+        }
+
+        .fullscreen-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #444;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .fullscreen-button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+  
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <h1>学習環境</h1>
+        <div id="clock"></div>
+    </header>
+    <nav id="menu" class="hidden">
+        <ul>
+            <li><a href="#" onclick="showPage('home')">ホーム</a></li>
+            <li><a href="#" onclick="showPage('page1')">理科</a></li>
+            <li><a href="#" onclick="showPage('page2')">社会</a></li>
+            <li><a href="#" onclick="showPage('page3')">国語</a></li>
+            <li><a href="#" onclick="showPage('page4')">数学</a></li>
+            <li><a href="#" onclick="showPage('page5')">英語</a></li>
+            <li><a href="#" onclick="showPage('page6')">保体</a></li>
+            <li><a href="#" onclick="showPage('page7')">家庭・技術</a></li>
+            <li><a href="#" onclick="showPage('page8')">音楽</a></li>
+            <li><a href="#" onclick="showPage('page9')">サイトについて</a></li>
+            <li><a href="#" onclick="showPage('BOX')">指摘BOX</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div id="home" class="page visible">
+            <h2>学習サイト接続用サイトへようこそ</h2>
+            <p><big>左上の3本線アイコンからページへ移動してください。</big></p>
+            <p><big><font color="red">お知らせ</p></big></font>
+            <big>最終更新　---2024年7月10日---</big>
+            <p>このサイトは副教科のみ定期試験対策使用仕様となっているためご注意ください。</p>
+<style> body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1f1c2c, #928DAB);
+            color: #fff;
+             background-image: url(https://user0514.cdnw.net/shared/img/thumb/zubottyDSC05248-12801_TP_V.jpg);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        </style>
+<body>
+    <div class="clock-container">
+        <div class="clock">
+            <div class="time" id="hours">00</div>
+        </div>
+        <div class="clock">
+            <div class="time" id="minutes">00</div>
+        </div>
+        <div class="clock seconds">
+            <span id="seconds">00</span>
+        </div>
+    </div>
+    <div class="date" id="date">YYYY-MM-DD</div>
+    <button class="fullscreen-button" onclick="toggleFullscreen()">フルスクリーン</button>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            document.getElementById('date').textContent = `${year}-${month}-${date}`;
+
+            const minutesElement = document.getElementById('minutes');
+            if (seconds === '00') {
+                minutesElement.classList.add('pulse');
+            } else {
+                minutesElement.classList.remove('pulse');
+            }
+
+            if (minutes === '00' && seconds === '00') {
+                minutesElement.classList.add('rotate');
+            } else {
+                minutesElement.classList.remove('rotate');
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // 初期呼び出し
+    </script>
+</body>
+
+        </div>
+        <div id="page1" class="page hidden">
+            <h2>理科の中1-2復習TOP50</h2>
+            <p>このページは　「理科の中1-2復習TOP50」　接続用サイトです。</p>
+          <p> </p><a href="https://script.google.com/macros/s/AKfycbxoptrcSCnLkYe-S0_BZp1W2UDMPqTnb3kfmFRbBu8HrDqbFFiAAYUPlb3Yhnb_cd8XkQ/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page2" class="page hidden">
+            <h2>中学歴史　並べ替え問題　問題集1⃣</h2>
+            <p>このサイトは　「中学歴史　並べ替え問題　問題集1⃣」　接続用サイトです。</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbzjpMrIPni34b8cu5J0GK9gCzjgZQFQA4vd6xCjluPg2M9UMWFyIAtp3RHMGxQHoMVguQ/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page3" class="page hidden">
+            <h2>国語</h2>
+            <p>近日、公開予定</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbwGLo5kjI3NknbdHJwK0UFvaZbP8ZX8AW_P867J2icVDTrtqL1bib_gUKRs7erZCZCy/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page4" class="page hidden">
+            <h2>数学</h2>
+            <p>近日、公開予定</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbwGLo5kjI3NknbdHJwK0UFvaZbP8ZX8AW_P867J2icVDTrtqL1bib_gUKRs7erZCZCy/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page5" class="page hidden">
+            <h2>中学英語　文法・単語題集1</h2>
+            <p>このサイトは　「中学英語　文法・単語題集1」　接続用サイトです。</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbxIZfy61ArWUt2auedUjUe9ggVXLIxhNshaKaPYF5UkC2UH5cYThDpylqvEjwJ4OpRo/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page6" class="page hidden">
+            <h2>体育　保健分野　定期テストver</h2>
+            <p>このサイトは　「体育分野　テスト対策」 接続用サイトです。</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbyaWugeoPQynSOqK5-DQfKLrWwSl6FysTnXxB5PVpt_42TP4yxnLENKUkJUb8QM0R5S/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page7" class="page hidden">
+            <h2>技術・家庭　定期テストver</h2>
+            <p>このサイトは　「技術・家庭　テスト対策」　接続用サイトです。</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbyuAAuui3gnEOy3-ainijCS-sm0oR4R_XnFii4EdxiQXU1EyzZPwaBSzThqS8PhHs09/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page8" class="page hidden">
+            <h2>音楽　定期テストver</h2>
+            <p>このサイトは　「音楽　定期テスト」　接続用サイトです。</p>
+            <p> </p><a href="https://script.google.com/macros/s/AKfycbyjTw7mK-SZGxXg4WD0mAotSpFP8Y-8ANPVhLp6a9LBOj3fNUQoz99vxP8eoxQkbFRA/exec" target="_blank" class="colorful-button" onclick="startAnimation()">Click</a>
+            <div class="spinner" id="spinner"></div>
+        </div>
+        <div id="page9" class="page hidden">
+            <h2>このサイトについて</h2>
+            <p><big>このサイトは学習専用サイトです。2024年5月1日に運用を開始し、現在に至ります。お気軽にご意見をお寄せください。</p></big>
+        </div>
+        <div id="BOX" class="page hidden">
+            <h2>お問い合わせフォーム</h2>
+            <li>このページに関するお問い合わせ、御指摘等は以下のフォームまでお願いいたします。</li>
+            <p>お問い合わせ窓口はこちら↓</p>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdHnXacte05yTRrrAUus0e08EJkMePsTn3T0shm6oR4mJm_sA/viewform?embedded=true" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        </div>
+    </main>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('visible');
+            menu.classList.toggle('hidden');
+
+            const mainContent = document.querySelector('main');
+            mainContent.classList.toggle('active');
+        }
+
+        function updateClock() {
+            const clock = document.getElementById('clock');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clock.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('visible');
+            });
+
+            const activePage = document.getElementById(pageId);
+            activePage.classList.add('visible');
+            activePage.classList.remove('hidden');
+
+            toggleMenu();
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
